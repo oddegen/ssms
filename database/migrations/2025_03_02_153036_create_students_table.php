@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('admission_number')->unique();
-            $table->year('enrollment_year');
+            $table->string('student_id')->unique();
+            $table->date('enrollment_date');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('users')->cascadeOnDelete();

@@ -15,8 +15,8 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         return [
-            'admission_number' => $this->faker->uuid(),
-            'enrollment_year' => $this->faker->year(),
+            'student_id' => strtoupper(uniqid('STU')),
+            'enrollment_date' => $this->faker->date(),
             'user_id' => User::factory(),
         ];
     }

@@ -13,9 +13,13 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'admission_number',
-        'enrollment_year',
+        'student_id',
+        'enrollment_date',
         'user_id',
+    ];
+
+    protected $casts = [
+        'enrollment_date' => 'date',
     ];
 
     /** @return BelongsTo<User, $this> */
