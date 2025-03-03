@@ -16,6 +16,7 @@ class Student extends Model
         'student_id',
         'enrollment_date',
         'user_id',
+        'admin_id',
     ];
 
     protected $casts = [
@@ -26,5 +27,11 @@ class Student extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** @return BelongsTo<User, $this> */
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'admin_id');
     }
 }

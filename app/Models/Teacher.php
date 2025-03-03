@@ -15,11 +15,18 @@ class Teacher extends Model
     protected $fillable = [
         'employee_number',
         'user_id',
+        'admin_id',
     ];
 
     /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** @return BelongsTo<User, $this> */
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'admin_id');
     }
 }

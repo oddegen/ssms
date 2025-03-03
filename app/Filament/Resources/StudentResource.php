@@ -83,7 +83,8 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('user.email')->label('Email'),
                 Tables\Columns\TextColumn::make('user.address')
                     ->label('Address')
-                    ->wrap(),
+                    ->lineClamp(2),
+                Tables\Columns\TextColumn::make('admin.fullname'),
             ])
             ->filters([
                 //
