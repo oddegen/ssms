@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ObservedBy(StudentObserver::class)]
 class Student extends Model
@@ -36,5 +37,11 @@ class Student extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    /** @return BelongsToMany<Subject, $this> */
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class);
     }
 }

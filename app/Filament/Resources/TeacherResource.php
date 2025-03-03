@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Extensions\Forms\UserGroup;
 use App\Filament\Extensions\Infolists\Components\UserGroup as UserGroupInfolist;
+use App\Filament\RelationManagers\SubjectsRelationManager;
 use App\Filament\Resources\TeacherResource\Pages;
 use App\Models\Teacher;
 use Filament\AvatarProviders\Contracts\AvatarProvider;
@@ -135,7 +136,7 @@ class TeacherResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SubjectsRelationManager::class,
         ];
     }
 

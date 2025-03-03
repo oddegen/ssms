@@ -36,5 +36,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $student->user->assignRole(Role::Student->value);
+
+        $this->call(SubjectSeeder::class);
     }
 }

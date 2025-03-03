@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Extensions\Forms\UserGroup;
 use App\Filament\Extensions\Infolists\Components\UserGroup as UserGroupInfolist;
+use App\Filament\RelationManagers\SubjectsRelationManager;
 use App\Filament\Resources\StudentResource\Pages;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -147,7 +148,7 @@ class StudentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SubjectsRelationManager::class,
         ];
     }
 
