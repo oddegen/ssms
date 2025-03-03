@@ -15,7 +15,7 @@ class TeacherFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_number' => $this->faker->uuid(),
+            'employee_number' => strtoupper(uniqid('EMP')),
             'user_id' => User::factory(),
         ];
     }

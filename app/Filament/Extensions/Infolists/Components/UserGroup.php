@@ -7,6 +7,7 @@ use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Illuminate\Database\Eloquent\Model;
 
 class UserGroup
 {
@@ -33,8 +34,12 @@ class UserGroup
                     TextEntry::make('user.gender')
                         ->label('Gender'),
                     TextEntry::make('user.address')
+                        /** @phpstan-ignore-next-line */
+                        ->visible(fn (Model $record) => ! is_null($record->user?->address))
                         ->label('Address'),
                     TextEntry::make('user.description')
+                        /** @phpstan-ignore-next-line */
+                        ->visible(fn (Model $record) => ! is_null($record->user?->description))
                         ->label('Description'),
                 ]),
         ], $schema);

@@ -11,6 +11,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Str;
 
 class UserGroup
 {
@@ -28,6 +29,7 @@ class UserGroup
                         ->image()
                         ->avatar()
                         ->imageEditor()
+                        ->circleCropper()
                         ->directory('users'),
                     TextInput::make('fullname')
                         ->label('Full Name')
@@ -36,13 +38,15 @@ class UserGroup
                         ->minLength(3),
                     TextInput::make('email')
                         ->email()
+                        ->unique(ignoreRecord: true)
                         ->maxLength(255),
                 ]),
             Section::make()
                 ->schema([
                     Select::make('gender')
                         ->options(Gender::class)
-                        ->default(Gender::female),
+                        ->default(Gender::female)
+                        ->enum(Gender::class),
                     Textarea::make('address')
                         ->autosize(),
                     MarkdownEditor::make('description')
@@ -52,6 +56,11 @@ class UserGroup
 
         return Group::make()
             ->relationship('user')
+            ->mutateRelationshipDataBeforeCreateUsing(function (array $data) {
+                $data['password'] = bcrypt($password = Str::password(16));
+
+                return $data;
+            })
             ->schema($schema);
     }
 }

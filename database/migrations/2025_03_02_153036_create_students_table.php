@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('student_id')->unique();
             $table->date('enrollment_date');
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();

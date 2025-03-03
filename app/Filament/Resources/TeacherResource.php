@@ -4,51 +4,49 @@ namespace App\Filament\Resources;
 
 use App\Filament\Extensions\Forms\UserGroup;
 use App\Filament\Extensions\Infolists\Components\UserGroup as UserGroupInfolist;
-use App\Filament\Resources\StudentResource\Pages;
-use App\Models\Student;
-use Carbon\Carbon;
+use App\Filament\Resources\TeacherResource\Pages;
+use App\Models\Teacher;
 use Filament\AvatarProviders\Contracts\AvatarProvider;
+use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
-class StudentResource extends Resource
+class TeacherResource extends Resource
 {
-    protected static ?string $model = Student::class;
+    protected static ?string $model = Teacher::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-user-group';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-academic-cap';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Group::make()
+                Forms\Components\Group::make()
                     ->schema([
                         UserGroup::make()
                             ->columnSpan(2),
                         Section::make()
                             ->schema([
-                                TextInput::make('student_id')
-                                    ->label('Student ID')
+                                TextInput::make('employee_number')
+                                    ->label('Employee Number')
                                     ->disabled()
                                     ->dehydrated()
                                     ->afterStateHydrated(function (Set $set, Component $livewire) {
-                                        if ($livewire instanceof Pages\CreateStudent) {
-                                            $set('student_id', strtoupper(uniqid('STU')));
+                                        if ($livewire instanceof Pages\CreateTeacher) {
+                                            $set('employee_number', strtoupper(uniqid('EMP')));
                                         }
                                     })
                                     ->required()
@@ -57,21 +55,11 @@ class StudentResource extends Resource
                                         Action::make('generateID')
                                             ->label('Generate ID')
                                             ->hidden(function (Component $livewire) {
-                                                return $livewire instanceof Pages\ViewStudent;
+                                                return $livewire instanceof Pages\ViewTeacher;
                                             })
                                             ->icon('heroicon-o-arrow-path')
-                                            ->action(fn (Set $set, $state) => $set('student_id', strtoupper(uniqid('STU')))),
+                                            ->action(fn (Set $set, $state) => $set('employee_number', strtoupper(uniqid('EMP')))),
                                     ),
-                                DatePicker::make('enrollment_date')
-                                    ->label('Enrollment Date')
-                                    ->format('d/m/Y')
-                                    ->dehydrateStateUsing(function ($state) {
-                                        return Carbon::parse($state);
-                                    })
-                                    ->required()
-                                    ->default(now())
-                                    ->minDate(now()->subYears(15))
-                                    ->maxDate(now()),
                             ])
                             ->columnSpan(1),
                     ])
@@ -84,12 +72,12 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('student_id')
+                Tables\Columns\TextColumn::make('employee_number')
                     ->label('ID')
                     ->fontFamily(FontFamily::Mono),
                 Tables\Columns\ImageColumn::make('user.image')
                     ->circular()
-                    ->defaultImageUrl(function (Student $record) {
+                    ->defaultImageUrl(function (Teacher $record) {
                         $resolver = app(AvatarProvider::class);
 
                         return $resolver->get($record->user);
@@ -129,13 +117,13 @@ class StudentResource extends Resource
     {
         return $infolist
             ->schema([
-                \Filament\Infolists\Components\Group::make()
+                Group::make()
                     ->schema([
-                        TextEntry::make('student_id')
-                            ->label('Student ID')
+                        TextEntry::make('employee_number')
+                            ->label('Employee Number')
                             ->fontFamily(FontFamily::Mono)
                             ->copyable()
-                            ->copyMessage('Student ID copied to clipboard.'),
+                            ->copyMessage('Employee Number copied to clipboard.'),
                         UserGroupInfolist::make()
                             ->columnSpan(2),
                     ])
@@ -154,17 +142,11 @@ class StudentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStudents::route('/'),
-            'create' => Pages\CreateStudent::route('/create'),
-            'view' => Pages\ViewStudent::route('/{record}'),
-            'edit' => Pages\EditStudent::route('/{record}/edit'),
+            'index' => Pages\ListTeachers::route('/'),
+            'create' => Pages\CreateTeacher::route('/create'),
+            'view' => Pages\ViewTeacher::route('/{record}'),
+            'edit' => Pages\EditTeacher::route('/{record}/edit'),
         ];
-    }
-
-    /** @return Builder<Student> */
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery();
     }
 
     public static function getNavigationGroup(): ?string

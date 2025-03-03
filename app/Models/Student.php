@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\StudentObserver;
 use Database\Factories\StudentFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy(StudentObserver::class)]
 class Student extends Model
 {
     /** @use HasFactory<StudentFactory> */
