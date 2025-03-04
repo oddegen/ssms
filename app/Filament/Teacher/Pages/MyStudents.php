@@ -4,6 +4,7 @@ namespace App\Filament\Teacher\Pages;
 
 use App\Models\Grade;
 use App\Models\Student;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\AvatarProviders\Contracts\AvatarProvider;
 use Filament\Pages\Page;
 use Filament\Support\Enums\FontFamily;
@@ -17,7 +18,7 @@ use Filament\Tables\Table;
 
 class MyStudents extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use HasPageShield, InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 

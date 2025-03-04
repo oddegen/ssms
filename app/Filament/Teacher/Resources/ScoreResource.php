@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Livewire\Component;
 
 class ScoreResource extends Resource
 {
@@ -49,8 +50,11 @@ class ScoreResource extends Resource
                                 }
 
                             })
-                            ->disabled(fn (Forms\Get $get) => is_null($get('student_id')))
-                            ->disabledOn('edit')
+                            ->disabled(function (Forms\Get $get, Component $livewire) {
+                                if (! $livewire instanceof Pages\CreateScore || is_null($get('student_id'))) {
+                                    return true;
+                                }
+                            })
                             ->required(),
                         Forms\Components\TextInput::make('score')
                             ->required()

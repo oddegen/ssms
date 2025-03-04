@@ -3,6 +3,7 @@
 namespace App\Filament\Student\Pages;
 
 use App\Models\Score;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -11,7 +12,7 @@ use Filament\Tables\Table;
 
 class Marks extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use HasPageShield, InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
 
