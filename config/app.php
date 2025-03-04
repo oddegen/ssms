@@ -52,7 +52,11 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://student.localhost:8000'),
+
+    'teacher_url' => env('APP_TEACHER_URL', 'http://teacher.localhost:8000'),
+
+    'admin_url' => env('APP_ADMIN_URL', 'https://admin.localhost:8000'),
 
     /*
     |--------------------------------------------------------------------------

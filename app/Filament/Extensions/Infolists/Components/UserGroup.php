@@ -2,7 +2,9 @@
 
 namespace App\Filament\Extensions\Infolists\Components;
 
+use App\Models\Student;
 use Closure;
+use Filament\AvatarProviders\Contracts\AvatarProvider;
 use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
@@ -22,8 +24,14 @@ class UserGroup
             Section::make()
                 ->schema([
                     ImageEntry::make('user.image')
+                        ->label('User Image')
                         ->circular()
-                        ->label('User Image'),
+                        ->defaultImageUrl(function (Model $record) {
+                            $resolver = app(AvatarProvider::class);
+
+                            /** @phpstan-ignore-next-line */
+                            return $resolver->get($record->user);
+                        }),
                     TextEntry::make('user.fullname')
                         ->label('Full Name'),
                     TextEntry::make('user.email')

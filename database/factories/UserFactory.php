@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'gender' => $this->faker->randomElement(Gender::values()),
             'address' => $this->faker->address(),
-            'image' => $this->faker->imageUrl(),
+            'image' => null,
             'description' => $this->faker->paragraph(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

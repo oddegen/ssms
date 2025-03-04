@@ -19,15 +19,20 @@ class DatabaseSeeder extends Seeder
 
         $admin = User::factory()->create([
             'fullname' => 'Admin',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@demo.com',
             'password' => bcrypt('password'),
             'gender' => Gender::male,
         ]);
         $admin->assignRole(Role::Admin->value);
 
-        $teacher = Teacher::factory()->create([
-            'admin_id' => $admin->id,
-        ]);
+        $teacher = Teacher::factory()
+            ->for(User::factory()->state([
+                'email' => 'teacher@demo.com',
+                'password' => bcrypt('password'),
+            ]))
+            ->create([
+                'admin_id' => $admin->id,
+            ]);
         $teacher->user->assignRole(Role::Teacher->value);
 
         $this->call(SubjectSeeder::class);
@@ -38,10 +43,15 @@ class DatabaseSeeder extends Seeder
 
         $teacher->subjects()->attach($subjects, ['grade_id' => $grade]);
 
-        $student = Student::factory()->create([
-            'admin_id' => $admin->id,
-            'grade_id' => $grade,
-        ]);
+        $student = Student::factory()
+            ->for(User::factory()->state([
+                'email' => 'student@demo.com',
+                'password' => bcrypt('password'),
+            ]))
+            ->create([
+                'admin_id' => $admin->id,
+                'grade_id' => $grade,
+            ]);
         $student->user->assignRole(Role::Student->value);
     }
 }

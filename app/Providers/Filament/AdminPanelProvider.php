@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\Login;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
@@ -34,18 +35,22 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        /** @var string $admin_url */
+        $admin_url = parse_url(config('app.admin_url'), PHP_URL_HOST);
+
         return $panel
             ->default()
             ->id('admin')
             ->path('/')
             ->spa()
+            ->domain($admin_url)
             ->brandName(fn () => __('SSMS'))
-            ->login()
+            ->login(Login::class)
             ->colors([
                 'primary' => Color::Emerald,
             ])
             ->navigationGroups([
-                NavigationGroup::make()->label(fn () => __('User Management')),
+                NavigationGroup::make()->label(fn () => __('User Management'))->collapsible(false),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
