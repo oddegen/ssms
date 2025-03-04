@@ -4,8 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Extensions\Forms\UserGroup;
 use App\Filament\Extensions\Infolists\Components\UserGroup as UserGroupInfolist;
-use App\Filament\RelationManagers\SubjectsRelationManager;
 use App\Filament\Resources\StudentResource\Pages;
+use App\Models\Grade;
 use App\Models\Student;
 use Carbon\Carbon;
 use Filament\AvatarProviders\Contracts\AvatarProvider;
@@ -13,6 +13,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -63,6 +64,10 @@ class StudentResource extends Resource
                                             ->icon('heroicon-o-arrow-path')
                                             ->action(fn (Set $set, $state) => $set('student_id', strtoupper(uniqid('STU')))),
                                     ),
+                                Select::make('grade_id')
+                                    ->label('Grade')
+                                    ->options(fn () => Grade::pluck('name', 'id')->toArray())
+                                    ->required(),
                                 DatePicker::make('enrollment_date')
                                     ->label('Enrollment Date')
                                     ->format('d/m/Y')
@@ -88,6 +93,7 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('student_id')
                     ->label('ID')
                     ->fontFamily(FontFamily::Mono),
+                Tables\Columns\TextColumn::make('grade.name'),
                 Tables\Columns\ImageColumn::make('user.image')
                     ->circular()
                     ->defaultImageUrl(function (Student $record) {
@@ -132,11 +138,14 @@ class StudentResource extends Resource
             ->schema([
                 \Filament\Infolists\Components\Group::make()
                     ->schema([
-                        TextEntry::make('student_id')
-                            ->label('Student ID')
-                            ->fontFamily(FontFamily::Mono)
-                            ->copyable()
-                            ->copyMessage('Student ID copied to clipboard.'),
+                        \Filament\Infolists\Components\Group::make([
+                            TextEntry::make('student_id')
+                                ->label('Student ID')
+                                ->fontFamily(FontFamily::Mono)
+                                ->copyable()
+                                ->copyMessage('Student ID copied to clipboard.'),
+                            TextEntry::make('grade.name'),
+                        ]),
                         UserGroupInfolist::make()
                             ->columnSpan(2),
                     ])
@@ -148,7 +157,7 @@ class StudentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            SubjectsRelationManager::class,
+            //
         ];
     }
 

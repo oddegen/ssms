@@ -37,6 +37,12 @@ class Teacher extends Model
     /** @return BelongsToMany<Subject, $this> */
     public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsToMany(Subject::class, 'grade_subject_teacher')->withPivot('grade_id');
+    }
+
+    /** @return BelongsToMany<Grade, $this> */
+    public function grades(): BelongsToMany
+    {
+        return $this->belongsToMany(Grade::class, 'grade_subject_teacher')->withPivot('subject_id');
     }
 }

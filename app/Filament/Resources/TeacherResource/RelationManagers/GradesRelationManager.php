@@ -1,34 +1,31 @@
 <?php
 
-namespace App\Filament\RelationManagers;
+namespace App\Filament\Resources\TeacherResource\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
-class SubjectsRelationManager extends RelationManager
+class GradesRelationManager extends RelationManager
 {
-    protected static string $relationship = 'subjects';
+    protected static string $relationship = 'grades';
 
     public function table(Table $table): Table
     {
         return $table
             ->recordTitleAttribute('name')
+            ->modifyQueryUsing(fn (Builder $query) => $query->select(DB::raw('distinct grades.*')))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->url(route('filament.admin.resources.subjects.index')),
-                Tables\Columns\TextColumn::make('code')
-                    ->fontFamily(FontFamily::Mono),
+                    ->url(route('filament.admin.resources.grades.index')),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
-                    ->label('Assign Subjects')
-                    ->preloadRecordSelect()
-                    ->multiple(),
+                //
             ])
             ->actions([
                 Tables\Actions\DetachAction::make()
