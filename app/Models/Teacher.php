@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[ObservedBy(TeacherObserver::class)]
 class Teacher extends Model
@@ -44,5 +45,11 @@ class Teacher extends Model
     public function grades(): BelongsToMany
     {
         return $this->belongsToMany(Grade::class, 'grade_subject_teacher')->withPivot('subject_id');
+    }
+
+    /** @return HasMany<Score, $this> */
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Score::class);
     }
 }

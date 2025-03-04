@@ -22,7 +22,7 @@ class Grade extends Model
     ];
 
     /** @return HasMany<Student, $this> */
-    public function student(): HasMany
+    public function students(): HasMany
     {
         return $this->hasMany(Student::class);
     }

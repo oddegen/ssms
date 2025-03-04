@@ -2,7 +2,6 @@
 
 namespace App\Filament\Extensions\Infolists\Components;
 
-use App\Models\Student;
 use Closure;
 use Filament\AvatarProviders\Contracts\AvatarProvider;
 use Filament\Infolists\Components\Group;

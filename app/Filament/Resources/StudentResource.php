@@ -95,6 +95,7 @@ class StudentResource extends Resource
                     ->fontFamily(FontFamily::Mono),
                 Tables\Columns\TextColumn::make('grade.name'),
                 Tables\Columns\ImageColumn::make('user.image')
+                    ->label('User Image')
                     ->circular()
                     ->defaultImageUrl(function (Student $record) {
                         $resolver = app(AvatarProvider::class);

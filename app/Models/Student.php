@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 #[ObservedBy(StudentObserver::class)]
@@ -51,5 +52,11 @@ class Student extends Model
     {
         // FIXME: Implement custom hasManyThroughPivot relationship
         return $this->hasManyThrough(Subject::class, Grade::class);
+    }
+
+    /** @return HasMany<Score, $this> */
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Score::class);
     }
 }
