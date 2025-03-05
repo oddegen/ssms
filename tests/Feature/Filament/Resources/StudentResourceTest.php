@@ -21,7 +21,6 @@ beforeEach(function () {
     );
 });
 
-
 it('is not accessible by unauthenticated user', function () {
     get(StudentResource::getUrl())
         ->assertRedirectToRoute('filament.admin.auth.login');
