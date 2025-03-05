@@ -26,7 +26,6 @@ rm -f composer-setup.php
 "$COMPOSER_PATH" install --no-dev --optimize-autoloader
 
 # Run Laravel commands
-php -r "file_exists('.env') || copy('.env.example', '.env');"
 php artisan key:generate
 php artisan migrate --force
 php artisan filament:optimize
