@@ -6,10 +6,17 @@ use App\Filament\Resources\GradeResource\Pages\ManageGrades;
 use App\Models\Grade;
 use App\Models\User;
 use Filament\Actions\CreateAction;
+use Filament\Facades\Filament;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 
 use function Pest\Laravel\get;
+
+beforeEach(function () {
+    Filament::setCurrentPanel(
+        Filament::getPanel('admin'),
+    );
+});
 
 it('is not accessible by unauthenticated user', function () {
     get(GradeResource::getUrl())

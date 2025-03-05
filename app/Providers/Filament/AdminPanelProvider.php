@@ -35,15 +35,10 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        /** @var string $admin_url */
-        $admin_url = parse_url(config('app.admin_url'), PHP_URL_HOST);
-
         return $panel
-            ->default()
             ->id('admin')
-            ->path('/')
+            ->path('/admin')
             ->spa()
-            ->domain($admin_url)
             ->brandName(fn () => __('SSMS'))
             ->login(Login::class)
             ->colors([
