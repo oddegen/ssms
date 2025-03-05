@@ -4,8 +4,11 @@ namespace App\Models;
 
 use App\Enums\Gender;
 use Database\Factories\UserFactory;
+use Exception;
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasAvatar, HasName
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, Notifiable;
@@ -72,5 +75,21 @@ class User extends Authenticatable implements HasAvatar, HasName
         }
 
         return null;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() == 'admin') {
+            return $this->hasRole('Admin');
+        } elseif ($panel->getId() == 'teacher') {
+            return $this->hasRole('Teacher');
+        } elseif ($panel->getId() == 'student') {
+            return $this->hasRole('Student');
+        }
+
+        return false;
     }
 }
