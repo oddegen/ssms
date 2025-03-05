@@ -23,14 +23,10 @@ class TeacherPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        /** @var string $teacher_url */
-        $teacher_url = parse_url(config('app.teacher_url'), PHP_URL_HOST);
-
         return $panel
             ->id('teacher')
-            ->path('/')
+            ->path('/teacher')
             ->spa()
-            ->domain($teacher_url)
             ->brandName(fn () => __('SSMS'))
             ->login(Login::class)
             ->colors([

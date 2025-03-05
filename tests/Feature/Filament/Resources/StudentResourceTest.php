@@ -8,11 +8,19 @@ use App\Filament\Resources\StudentResource\Pages\ListStudents;
 use App\Models\Student;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\get;
+
+beforeEach(function () {
+    Filament::setCurrentPanel(
+        Filament::getPanel('admin'),
+    );
+});
+
 
 it('is not accessible by unauthenticated user', function () {
     get(StudentResource::getUrl())
