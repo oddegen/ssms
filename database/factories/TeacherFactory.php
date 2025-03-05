@@ -17,6 +17,7 @@ class TeacherFactory extends Factory
         return [
             'employee_number' => strtoupper(uniqid('EMP')),
             'user_id' => User::factory(),
+            'admin_id' => User::factory(),
         ];
     }
 }

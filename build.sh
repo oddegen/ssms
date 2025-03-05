@@ -27,7 +27,7 @@ rm -f composer-setup.php
 
 # Run Laravel commands
 php artisan key:generate
-php artisan migrate --force
+php artisan migrate --force --seed
 php artisan filament:optimize
 php artisan optimize
 
